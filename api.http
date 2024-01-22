@@ -1,0 +1,16 @@
+@apiurl = http://localhost:9000/
+
+GET {{apiurl}}categories HTTP/1.1
+Content-Type: application/json
+
+
+### Create a new category
+
+POST {{apiurl}}categories HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Category 2",
+    "description": "Category 2 description"
+
+}

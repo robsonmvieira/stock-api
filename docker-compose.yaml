@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  adminDb:
+    container_name: DbAdminStock
+    image: 'postgres:14.1'
+    ports:
+      - '5499:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
