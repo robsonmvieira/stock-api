@@ -19,27 +19,30 @@ import {
 } from '../usecases'
 // import { CreateCategoryDto } from '../../domain/entities/dtos'
 import { PrismaRepository } from '../../infra/repositories'
+import { CreateCategoryDto } from '@modules/categories/domain'
 @Controller('categories')
 export class CategoriesController {
-  // @Inject(CreateCategoryUseCase)
-  // private createCategoryUsecase: CreateCategoryUseCase
+  constructor() {
+    console.log('entrei no controller')
+  }
+  @Inject(CreateCategoryUseCase)
+  private createCategoryUsecase: CreateCategoryUseCase
 
-  // @Inject(DeleteCategoryUseCase)
-  // private deleteCategoryUseCase: DeleteCategoryUseCase
+  @Inject(DeleteCategoryUseCase)
+  private deleteCategoryUseCase: DeleteCategoryUseCase
 
-  // @Inject(ListCategoryUseCase)
-  // private listCategoryUseCase: ListCategoryUseCase
+  @Inject(ListCategoryUseCase)
+  private listCategoryUseCase: ListCategoryUseCase
 
-  // @Post()
-  // async create(@Body() createCategoryDto: CreateCategoryDto) {
-  //   return this.createCategoryUsecase.execute(createCategoryDto)
-  // }
-  constructor(private repo: PrismaRepository) {}
+  @Post()
+  async create(@Body() createCategoryDto: CreateCategoryDto) {
+    return this.createCategoryUsecase.execute(createCategoryDto)
+  }
 
   @Get()
   findAll(@Body() inputSearch: ListCategoryInputUseCaseDto) {
-    // return this.listCategoryUseCase.execute(inputSearch)
-    return this.repo.category.findMany()
+    console.log('entrei aqui no método linha 44 => ', this.listCategoryUseCase)
+    return this.listCategoryUseCase.execute(inputSearch)
   }
 
   @Get(':id')

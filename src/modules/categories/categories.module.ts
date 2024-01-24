@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common'
 import {
   CategoriesController,
+  CreateCategoryUseCase,
+  DeleteCategoryUseCase,
+  ICategoryRepository,
+  ListCategoryUseCase,
   // CreateCategoryUseCase,
   // DeleteCategoryUseCase,
   // ICategoryRepository,
@@ -15,37 +19,41 @@ import { PrismaRepository } from './infra/repositories/prisma.repository'
   imports: [],
   controllers: [CategoriesController],
   providers: [
-    // PrismaRepository,
+    PrismaRepository,
     // {
     //   provide: PrismaCategoryRepository,
     //   useFactory: () => new PrismaCategoryRepository(),
     //   inject: ['PrismaRepository']
     // },
-    ...Object.values(CATEGORY_PROVIDERS.REPOSITORIES),
-    ...Object.values(CATEGORY_PROVIDERS.USE_CASES)
+    // ...Object.values(CATEGORY_PROVIDERS.REPOSITORIES),
+    // ...Object.values(CATEGORY_PROVIDERS.USE_CASES)
+    {
+      provide: 'CategoryRepository',
+      useClass: PrismaCategoryRepository
+    },
 
     // usecases
-    // {
-    //   provide: CreateCategoryUseCase,
-    //   useFactory: (categoryRepo: ICategoryRepository) => {
-    //     return new CreateCategoryUseCase(categoryRepo)
-    //   },
-    //   inject: ['CategoryRepository']
-    // },
-    // {
-    //   provide: ListCategoryUseCase,
-    //   useFactory: (categoryRepo: ICategoryRepository) => {
-    //     return new ListCategoryUseCase(categoryRepo)
-    //   },
-    //   inject: ['CategoryRepository']
-    // },
-    // {
-    //   provide: DeleteCategoryUseCase,
-    //   useFactory: (categoryRepo: ICategoryRepository) => {
-    //     return new DeleteCategoryUseCase(categoryRepo)
-    //   },
-    //   inject: ['CategoryRepository']
-    // }
+    {
+      provide: CreateCategoryUseCase,
+      useFactory: (categoryRepo: ICategoryRepository) => {
+        return new CreateCategoryUseCase(categoryRepo)
+      },
+      inject: ['CategoryRepository']
+    },
+    {
+      provide: ListCategoryUseCase,
+      useFactory: (categoryRepo: ICategoryRepository) => {
+        return new ListCategoryUseCase(categoryRepo)
+      },
+      inject: ['CategoryRepository']
+    },
+    {
+      provide: DeleteCategoryUseCase,
+      useFactory: (categoryRepo: ICategoryRepository) => {
+        return new DeleteCategoryUseCase(categoryRepo)
+      },
+      inject: ['CategoryRepository']
+    }
   ]
 })
 export class CategoriesModule {}
